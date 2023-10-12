@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+   <head>
+    <title>计算器</title>
+    <meta charset="utf8">
+    <link rel="stylesheet"type="text/css"href="计算器.css"/>
+   </head>
+
+   <style>
+    #main{
+         border: 10px outset rgb(9, 83, 219);
+         margin: 30px auto;
+         background: rgb(5, 161, 167);
+         box-shadow: 5px 5px #067ead inset;
+         padding-top: 20px;
+       }/*设置最外层表格样式*/
+   th{
+        height: 40px;
+        border: 5px outset #cccccc;        
+       }
+#result{
+width: 200%;
+height: 200%;
+box-shadow: 1px 1px #04dbc9;
+text-align: right;
+font-size: 30px;
+background: #04dbc9;
+}
+[type=button]{
+width: 70px;
+height: 45px;
+box-shadow: 3px 3px #bd5d45,3px 3px #CCCCCC inset;
+background-image:linear-gradient(to top right,rgb(170, 172, 100),#fff);/*设置按钮渐变色*/
+color: #000000;
+font-weight: bold;
+margin: 5px;
+border-radius: 12px/9px;
+}/*设置所有butto的样式*/
+#table1,#table2,#table3{
+margin-top: 20px;
+border: 5px outset #CCCCCC;    
+}
+[type=button]:hover{
+background-image:linear-gradient(to top right,rgb(13, 219, 106),rgb(255, 255, 255));
+}
+</style>
+
+<script type="text/javascript">
+    //声明函数
+    function num(btn){
+        //获取button按钮对象的value值
+        var num=btn.value;
+        //根据用户点击动作执行对应的业务逻辑
+        switch (num){
+            case "=":
+                document.getElementById("inp").value=eval(document.getElementById("inp").value);
+                break;
+            case '+/-':
+                document.getElementById("inp").value=document.getElementById("inp").value*(-1);            
+                break;
+            default:
+                //将按钮的值赋值给input输入框
+                document.getElementById("inp").value=document.getElementById("inp").value+num;
+                break;
+        }
+    }
+    function clean() {
+          location.replace(location)
+  	}
+
+    function backspace() {
+      var result=document.getElementById('inp');
+          result.value=result.value.substring(0,result.value.length-1);
+          if (result.value=='') {
+             result.value='';
+         }
+    }
+
+    function calc(btn){
+        var num=btn.value;
+        switch(num){
+            case "平均数":
+                {   
+                var numbers = document.getElementById("inp").value.split(",");
+                for (var i=0;i<numbers.length;i++) {
+                    numbers[i]=parseFloat(numbers[i]);
+                }
+                var sum=0;
+                for(var i=0; i<numbers.length;i++){ sum+=numbers[i]; }
+                var avg=sum/numbers.length;
+                document.getElementById("inp").value=avg;
+                break;
+            }
+            case "方差":
+                {   
+                var numbers = document.getElementById("inp").value.split(",");
+                for (var i=0;i<numbers.length;i++) {
+                    numbers[i]=parseFloat(numbers[i]);
+                }
+                var sum=0;
+                for(var i=0; i<numbers.length;i++){ sum+=numbers[i]; }
+                var avg=sum/numbers.length;
+                var sum2=0;
+                for(var i=0;i<numbers.length;i++) {
+                    sum2+=(numbers[i]-avg)*(numbers[i]-avg);
+                }
+                var vari=sum2/numbers.length;
+                document.getElementById("inp").value=vari;
+                break;
+            }
+            case "sin":
+                {
+                var numc=parseFloat(document.getElementById("inp").value);
+                var hd=(numc*Math.PI)/180;
+                document.getElementById("inp").value=Math.sin(hd);
+            }
+            
+        }
+    }
+
+    function calc1(btn){
+        var num=btn.value;
+        switch(num){
+            case "cos":
+                {
+                var numc=parseFloat(document.getElementById("inp").value);
+                var hd=(numc*Math.PI)/180;
+                document.getElementById("inp").value=Math.cos(hd);
+            }
+        }
+    }
+        function calc2(btn){
+        var num=btn.value;
+        switch(num){
+            case "二进制":
+                {
+                var num1=parseFloat(document.getElementById("inp").value);
+                document.getElementById("inp").value=num1.toString(2);
+            }
+        }
+    }
+
+    function calc3(btn){
+        var num=btn.value;
+        switch(num){
+            case "中位数":
+                {
+                var numbers = document.getElementById("inp").value.split(",");
+                for (var i=0;i<numbers.length;i++) {
+                    numbers[i]=parseFloat(numbers[i]);
+                }
+                var max;
+                for(var i=0;i<numbers.length;i++){
+                    for(var j=i;j<numbers.length;j++)
+                    {
+                        if(numbers[i]<numbers[j]){
+                        max=numbers[j];
+                        numbers[j]=numbers[i];
+                        numbers[i]=max;
+                        }
+                    }
+                }
+                if(numbers.length%2!=0){
+                document.getElementById("inp").value=numbers[1/2*(numbers.length-1)];}
+                else 
+                document.getElementById("inp").value=1/2*(numbers[1/2*numbers.length]+numbers[1/2*numbers.length-1]);
+            }
+        }
+    }
+
+    function calc4(btn){
+        var num=btn.value;
+        switch(num){
+            case "众数":
+                {
+                var numbers = document.getElementById("inp").value.split(",");
+                for (var i=0;i<numbers.length;i++) {
+                    numbers[i]=parseFloat(numbers[i]);
+                }
+                if (numbers.length > 0) {
+                var hashmap = {};
+                for (var i = 0; i < numbers.length; i++) {
+                  if (hashmap[numbers[i]] === undefined) {
+                      hashmap[numbers[i]] = 1;
+                  } else {
+                      hashmap[numbers[i]] += 1;
+                  }
+                }
+                var maxValue = 0;
+                var maxKey = null;
+                for (var key in hashmap) {
+                    var tmpvalue = hashmap[key];
+                    if (tmpvalue > maxValue) {
+                        maxValue = tmpvalue;
+                        maxKey = key;
+                    }
+                }
+                }
+              var mode = maxKey;
+              document.getElementById("inp").value=mode;
+            }
+        }
+    }
+
+    function calc5(btn){
+        var num=btn.value;
+        switch(num){
+            case "n!":
+                {
+                var sum=1;
+                var num=parseFloat(document.getElementById("inp").value);
+                for(var i=1;i<num+1;i++){
+                    sum*=i;
+                }
+                document.getElementById("inp").value=sum;
+            }
+        }
+    }
+
+    function calc6(btn){
+        var num=btn.value;
+        switch(num){
+            case "sqrt":
+                {
+                var num=Math.sqrt(document.getElementById("inp").value);
+                document.getElementById("inp").value=num;
+            }
+        }
+    }
+
+    function calc7(btn){
+        var num=btn.value;
+        switch(num){
+            case "lnx":
+                {
+                var num=Math.log(document.getElementById("inp").value);
+                document.getElementById("inp").value=num;
+            }
+        }
+    }
+
+    function calc8(btn){
+        var num=btn.value;
+        switch(num){
+            case "1/X":
+                {
+                var num=1/parseFloat(document.getElementById("inp").value);
+                document.getElementById("inp").value=num;
+            }
+        }
+    }
+
+    function calc9(btn){
+        var num=btn.value;
+        switch(num){
+            case "exp":
+                {
+                var num=Math.exp(document.getElementById("inp").value);
+                document.getElementById("inp").value=num;
+            }
+        }
+    }
+</script>
+
+   <body bgcolor="grey">
+    <table border="1" cellspacing="100" cellpadding="50" id='main' align="center">
+        <tr>
+            <th id='time'></th>
+            <th >
+                <input type="text"   id="inp" value="" readonly="readonly"/>
+            </th>
+            <th>
+                <input type="button" name="" id="" value="清零"  onclick="clean()"/>
+                <input type="button" name="" id="" value="退格"  onclick='backspace()'/>
+            </th>
+        </tr>
+
+
+
+<tr>
+             <td>
+                 <table id="table1">
+                     <tr>
+                         <td>
+                             <input type="button" name="" id="" value="sin"  onclick="calc(this)"/>
+                         </td>
+                         <td>
+                            <input type="button" name="" id="" value="cos"  onclick="calc1(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value=","  onclick="num(this)"/>
+                       </td>
+                   </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="平均数"  onclick="calc(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="方差"  onclick="calc(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="中位数"  onclick="calc3(this)"/>
+                       </td>
+                   </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="众数"  onclick="calc4(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="1/X"  onclick="calc8(this)"/>
+                        </td>
+                       <td>
+                            <input type="button" name="" id="" value="exp"  onclick="calc9(this)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="sqrt"  onclick="calc6(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="lnx"  onclick="calc7(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="n!"  onclick="calc5(this)"/>
+                        </td>
+                    </tr>
+               </table>
+            </td>
+
+
+
+<td>
+                 <table id="table2">
+                     <tr>
+                         <td>
+                             <input type="button" name="" id="btn" value="7"  onclick="num(this)"/>
+                         </td>
+                         <td>
+                            <input type="button" name="" id="" value="8"  onclick="num(this)"/>
+                         </td>
+                        <td>
+                            <input type="button" name="" id="" value="9"  onclick="num(this)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="4"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="5"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="6"  onclick="num(this)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="1"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="2"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="3"  onclick="num(this)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="0"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="."  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="="  onclick="num(this)"/>
+                        </td>
+                   </tr>
+                </table>            
+       </td>
+
+
+
+<td>
+                 <table id="table3">
+                     <tr>
+                        <td>
+                             <input type="button" name="" id="" value="+"  onclick="num(this)"/>
+                         </td>
+                         <td>
+                             <input type="button" name="" id="" value="二进制"  onclick="calc2(this)"/>
+                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="-"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="%"  onclick="num(this)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="*"  onclick="num(this)"/>
+                        </td>
+                        <td>
+                            <input type="button" name="" id="" value="+/-"  onclick="num(this)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="" id="" value="/"  onclick="num(this)"/>
+                        </td>
+                   </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
